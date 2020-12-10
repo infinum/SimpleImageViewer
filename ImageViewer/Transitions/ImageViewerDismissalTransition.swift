@@ -112,9 +112,16 @@ private extension ImageViewerDismissalTransition {
             case .end:
                 self.animatableImageview.contentMode = self.toImageView.contentMode
                 self.animatableImageview.transform = .identity
-                self.animatableImageview.frame = self.toImageView.superview!.convert(self.toImageView.frame, to: nil)
+                self.animatableImageview.frame = self.frameOfViewInWindowsCoordinateSystem(self.toImageView)
                 self.fadeView.alpha = 0.0
             }
         }
     }
+
+    func frameOfViewInWindowsCoordinateSystem(_ view: UIView) -> CGRect {
+       if let superview = view.superview {
+           return superview.convert(view.frame, to: nil)
+       }
+       return view.frame
+   }
 }
